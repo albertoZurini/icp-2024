@@ -118,7 +118,7 @@ class HCEActivity : ComponentActivity() {
         } else {
             Toast.makeText(
                 this,
-                urlToCast,
+                "Message set correctly",
                 Toast.LENGTH_LONG,
             ).show()
             val intent = Intent(this, KHostApduService::class.java)
