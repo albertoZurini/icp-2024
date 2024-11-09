@@ -1,4 +1,4 @@
-import { IcrcIndexNgTransaction } from "@dfinity/ledger-icrc";
+import { Transaction } from "@dfinity/ledger/dist/candid/icrc1_ledger";
 import { formatCkBtc } from "../../../utils/formatCkBtc";
 import { shortenPrincipal } from "../../../utils/shortenPrincipal";
 import { useAuth } from "../../../auth/hooks/useAuth";

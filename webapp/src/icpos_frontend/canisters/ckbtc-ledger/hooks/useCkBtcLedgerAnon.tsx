@@ -6,8 +6,8 @@ import {
 } from "@dfinity/agent";
 
 import React from "react";
-import { BitcoinCanister } from "@dfinity/ckbtc";
-import { Principal } from "@dfinity/principal";
+import { _SERVICE } from "@dfinity/ledger/dist/candid/icrc1_ledger";
+import { idlFactory } from "@dfinity/ledger/dist/candid/icrc1_ledger.idl";
 
 export function useCkBtcLedgerAnon() {
   const [ckBtcLedger, setCkBtcLedger] = React.useState<
@@ -32,14 +32,15 @@ export function useCkBtcLedgerAnon() {
       });
     }
     // Creates an actor with using the candid interface and the HttpAgent
-    return BitcoinCanister.create({
+    return Actor.createActor(idlFactory, {
       agent,
-      canisterId: Principal.fromText(process.env.CANISTER_ID_ICRC1_LEDGER!),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      canisterId: process.env.CANISTER_ID_ICRC1_LEDGER!,
     });
   };
 
   React.useEffect(() => {
-    const { actor } = createActor();
+    const actor = createActor();
     setCkBtcLedger(actor);
   }, []);
 
