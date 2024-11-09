@@ -1,7 +1,7 @@
-dfx start --clean --background;
-dfx deploy --network local internet_identity;
-export OWNER=$(dfx identity get-principal);
-dfx deploy --network local --specified-id mxzaz-hqaaa-aaaar-qaada-cai icrc1_ledger --argument '
+# dfx start --clean --background;
+# dfx deploy --network local internet_identity;
+export OWNER=$(dfx identity get-principal --network ic);
+dfx deploy --network ic icrc1_ledger --argument '
   (variant {
     Init = record {
       token_name = "Local ckBTC";
@@ -27,10 +27,10 @@ dfx deploy --network local --specified-id mxzaz-hqaaa-aaaar-qaada-cai icrc1_ledg
     }
   })
 ';
-dfx deploy --network local icrc1_index --argument '
+export LEDGER=$(dfx canister id icrc1_ledger --network ic);
+dfx deploy --network ic icrc1_index --argument '
   record {
-   ledger_id = (principal "mxzaz-hqaaa-aaaar-qaada-cai");
+   ledger_id = (principal "'${LEDGER}'");
   }
 ';
-dfx deploy --network local icpos --argument '(0)';
-dfx canister --network local call icpos setCourierApiKey "pk_prod_...";
+dfx deploy --network ic icpos --argument '(4027618000)';

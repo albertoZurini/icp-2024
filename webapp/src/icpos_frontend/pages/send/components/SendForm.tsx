@@ -34,7 +34,7 @@ const SendSchema = z.object({
 
 type SendSchemaType = z.infer<typeof SendSchema>;
 
-export default function SendForm({ principal, address, amount }: SendFormProps) {
+export default function SendForm({ address, amount }: SendFormProps) {
   const { ledgerCanister, balance } = useCkBtcLedger();
   const navigate = useNavigate();
 
@@ -106,9 +106,9 @@ export default function SendForm({ principal, address, amount }: SendFormProps) 
     }
   }
 
-  useEffect(()=>{
-    toast.success("Transfer successful.", {duration: 100000});
-  }, [])
+  useEffect(() => {
+    toast.success("Transfer successful.", { duration: 100000 });
+  }, []);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">

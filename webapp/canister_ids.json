@@ -1,8 +1,14 @@
 {
   "icpos": {
-    "ic": "imhb7-2yaaa-aaaal-qb7va-cai"
+    "ic": "wexsy-kyaaa-aaaak-qtpvq-cai"
   },
   "icpos_frontend": {
-    "ic": "hngac-6aaaa-aaaal-qb6tq-cai"
+    "ic": "wrqdv-lqaaa-aaaak-qtpwa-cai"
+  },
+  "icrc1_index": {
+    "ic": "w7so5-qaaaa-aaaak-qtpxa-cai"
+  },
+  "icrc1_ledger": {
+    "ic": "wwrfb-giaaa-aaaak-qtpwq-cai"
   }
 }
