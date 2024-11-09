@@ -8,7 +8,6 @@ keywords: [advanced, motoko, bitcoin, pos, point of sale, ckbtc]
 
 ![](./media/header.png)
 
-
 IC-POS is an experimental app to demonstrate a real-world use case for [ckBTC](https://internetcomputer.org/ckbtc/) on the Internet Computer. It is a simple Point of Sale app that allows users to accept ckBTC payments.
 
 The Internet Computer [integrates directly with the Bitcoin network](https://internetcomputer.org/docs/current/developer-docs/integrations/bitcoin/). This allows canisters on the Internet Computer to receive, hold, and send Bitcoin, all directly with transactions on the Bitcoin network. Chain-key Bitcoin (ckBTC) is an ICRC-1-compliant token that is backed 1:1 by Bitcoin and held 100% on the ICP mainnet.
@@ -107,12 +106,12 @@ dfx deploy --network local --specified-id mxzaz-hqaaa-aaaar-qaada-cai icrc1_ledg
       token_name = "Local ckBTC";
       token_symbol = "LCKBTC";
       minting_account = record {
-        owner = principal "'${OWNER}'";
+        owner = principal "'{$OWNER}'";
       };
       initial_balances = vec {
         record {
           record {
-            owner = principal "'${OWNER}'";
+            owner = principal "'{$OWNER}'";
           };
           100_000_000_000;
         };
@@ -122,7 +121,7 @@ dfx deploy --network local --specified-id mxzaz-hqaaa-aaaar-qaada-cai icrc1_ledg
       archive_options = record {
         trigger_threshold = 2000;
         num_blocks_to_archive = 1000;
-        controller_id = principal "'${OWNER}'";
+        controller_id = principal "'{$OWNER}'";
       }
     }
   })
@@ -205,9 +204,9 @@ If everything is working, you should see a notification in the second store.
 
 ## Possible improvements
 
-- Login state is not persisted. Reloading the app will log the user out. This should be done using `localStorage` or `sessionStorage`.
+- ~~Login state is not persisted. Reloading the app will log the user out. This should be done using `localStorage` or `sessionStorage`.~~
 - Show more information about transactions. A transaction detail page.
-- Show a confirmation dialog after the user clicks on the `Send` button.
+- ~~Show a confirmation dialog after the user clicks on the `Send` button.~~
 
 ## Known issues
 

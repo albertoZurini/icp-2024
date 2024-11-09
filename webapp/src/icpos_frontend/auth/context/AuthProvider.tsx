@@ -6,10 +6,10 @@ import { AuthContextType } from "../types/auth-context.type";
 import { createAgent } from "@dfinity/utils";
 
 // Mode
-const development = process.env.DFX_NETWORK !== "ic" 
+const development = process.env.DFX_NETWORK !== "ic";
 // Identity provider URL
 const IDENTITY_PROVIDER = development
-  ? `http://${process.env.CANISTER_ID_INTERNET_IDENTITY}.localhost:4943` 
+  ? `http://${process.env.CANISTER_ID_INTERNET_IDENTITY}.localhost:4943`
   : "https://identity.ic0.app";
 
   console.log("MAGIC URL", IDENTITY_PROVIDER)
@@ -28,18 +28,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false);
 
-  // Initialize the auth client on component mount
   useEffect(() => {
-    AuthClient.create({
-      idleOptions: {
-        disableDefaultIdleCallback: true,
-        disableIdle: true,
-      },
-    }).then(async (client) => {
+    const checkAuth = async () => {
+      const client = await AuthClient.create({
+        idleOptions: {
+          disableDefaultIdleCallback: true,
+          disableIdle: true,
+        },
+      });
+
       const isAuthenticated = await client.isAuthenticated();
-      setAuthClient(client);
-      setIsAuthenticated(isAuthenticated);
-    });
+
+      if (isAuthenticated) {
+        const identity = client.getIdentity();
+        const agent = await createAgent({
+          identity,
+          host: development ? "http://localhost:4943" : "https:icp0.io",
+        });
+
+        if (development) {
+          await agent.fetchRootKey();
+        }
+
+        setAuthClient(client);
+        setIdentity(identity);
+        setAgent(agent);
+        setIsAuthenticated(true);
+        setHasLoggedIn(true);
+      } else {
+        setAuthClient(client);
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
   // Function to handle login
@@ -64,6 +86,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         setIsAuthenticated(true);
         setHasLoggedIn(true);
+
+        // Store login state
+        localStorage.setItem("isLoggedIn", "true");
       },
     });
   };
@@ -71,9 +96,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Function to handle logout
   const logout = () => {
     authClient?.logout();
-    // setActor(undefined);
     setIdentity(undefined);
     setIsAuthenticated(false);
+    setHasLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
   };
   /*
 

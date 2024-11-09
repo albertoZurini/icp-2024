@@ -40,7 +40,15 @@ export default function SendPage() {
 
   // This page requires authentication
   if (!hasLoggedIn) {
-    return <Navigate to={`/?address=${address}&amount=${amount}`} />;
+    return (
+      <Navigate
+        to="/send"
+        search={{
+          address: address,
+          amount: amount,
+        }}
+      />
+    );
   }
 
   if (!merchantState || !merchantState.merchant || !identity)
@@ -72,7 +80,11 @@ export default function SendPage() {
               <div>{formatCkBtc(balance)} ckBTC</div>
               <PrincipalPill principal={identity?.getPrincipal().toString()} />
               <div className="grow" />
-              <SendForm principal={principal} address={address} amount={amount} />
+              <SendForm
+                principal={principal}
+                address={address}
+                amount={amount}
+              />
             </>
           )}
           <QRReader

@@ -36,15 +36,21 @@ export default function MerchantPage() {
   const params = new URLSearchParams(search);
 
   const address = params.get("address") || "";
-  const amount = params.get("amount") || "10"
+  const amount = params.get("amount") || "10";
 
-  if(address != ""){
-    return  <Navigate to={`/send?address=${principal}&amount=${amount}`} />
+  if (address != "") {
+    return (
+      <Navigate
+        to="/send"
+        search={{
+          address: principal,
+          amount: amount,
+        }}
+      />
+    );
   }
 
-
-  const sendURL = `https://hack.zurini.dev/send?address=${principal}&amount=${amount}`
-
+  const sendURL = `https://hack.zurini.dev/send?address=${principal}&amount=${amount}`;
 
   // This page requires authentication
   if (!hasLoggedIn) {
@@ -94,7 +100,12 @@ export default function MerchantPage() {
               Show store QR code <QrCodeIcon />
             </Link>
 
-            <a href={"p2pay://p2pay/"+sendURL} className="flex items-center gap-2">Share with NFC</a>
+            <a
+              href={"p2pay://p2pay/" + sendURL}
+              className="flex items-center gap-2"
+            >
+              Share with NFC
+            </a>
 
             <div className="flex flex-col items-center justify-end grow">
               <HistoryButton principal={identity?.getPrincipal().toString()} />
