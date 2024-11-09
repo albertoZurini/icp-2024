@@ -1,0 +1,1 @@
+docker run -v $PWD:/ciao -it node:latest /bin/bash

@@ -12,6 +12,8 @@ const IDENTITY_PROVIDER = development
   ? `http://${process.env.CANISTER_ID_INTERNET_IDENTITY}.localhost:4943` 
   : "https://identity.ic0.app";
 
+  console.log("MAGIC URL", IDENTITY_PROVIDER)
+
 // Create a context for authentication
 export const AuthContext = createContext<Partial<AuthContextType>>({});
 
@@ -73,8 +75,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIdentity(undefined);
     setIsAuthenticated(false);
   };
+  /*
 
   // Provide the auth context to children
+  console.log("LOGIN DATA")
+  let toSave = {authClient,
+    identity,
+    agent,
+    isAuthenticated,
+    hasLoggedIn,}
+  
+  if(hasLoggedIn)
+    localStorage.setItem("loginData", JSON.stringify(toSave))
+  else 
+  */
+
   return (
     <AuthContext.Provider
       value={{

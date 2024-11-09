@@ -19,9 +19,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 type SendFormProps = {
   principal: string;
+  address: string;
+  amount: string;
 };
 
 const SendSchema = z.object({
@@ -31,15 +34,15 @@ const SendSchema = z.object({
 
 type SendSchemaType = z.infer<typeof SendSchema>;
 
-export default function SendForm({ principal }: SendFormProps) {
+export default function SendForm({ principal, address, amount }: SendFormProps) {
   const { ledgerCanister, balance } = useCkBtcLedger();
   const navigate = useNavigate();
 
   const form = useForm<SendSchemaType>({
     resolver: zodResolver(SendSchema),
     defaultValues: {
-      to: principal,
-      amount: "0",
+      to: address,
+      amount: amount,
     },
   });
 
@@ -103,6 +106,9 @@ export default function SendForm({ principal }: SendFormProps) {
     }
   }
 
+  useEffect(()=>{
+    toast.success("Transfer successful.", {duration: 100000});
+  }, [])
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">

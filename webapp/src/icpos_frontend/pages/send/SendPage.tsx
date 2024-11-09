@@ -20,6 +20,11 @@ export default function SendPage() {
   const { merchantState } = useIcPos();
   const { identity, hasLoggedIn } = useAuth();
   const { balance } = useCkBtcLedger();
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+
+  const address = params.get("address") || "";
+  const amount = params.get("amount") || "0";
 
   const [qrReaderOpen, setQrReaderOpen] = React.useState(false);
   const [principal, setPrincipal] = React.useState("");
@@ -35,7 +40,7 @@ export default function SendPage() {
 
   // This page requires authentication
   if (!hasLoggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to={`/?address=${address}&amount=${amount}`} />;
   }
 
   if (!merchantState || !merchantState.merchant || !identity)
@@ -67,7 +72,7 @@ export default function SendPage() {
               <div>{formatCkBtc(balance)} ckBTC</div>
               <PrincipalPill principal={identity?.getPrincipal().toString()} />
               <div className="grow" />
-              <SendForm principal={principal} />
+              <SendForm principal={principal} address={address} amount={amount} />
             </>
           )}
           <QRReader
