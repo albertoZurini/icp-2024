@@ -19,7 +19,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 
 type SendFormProps = {
   principal: string;
@@ -106,9 +105,6 @@ export default function SendForm({ address, amount }: SendFormProps) {
     }
   }
 
-  useEffect(() => {
-    toast.success("Transfer successful.", { duration: 100000 });
-  }, []);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">

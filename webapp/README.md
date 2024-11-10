@@ -2,7 +2,7 @@
 keywords: [advanced, motoko, bitcoin, pos, point of sale, ckbtc]
 ---
 
-# IC-POS
+# IC-POS-NFC
 
 [View this sample's code on GitHub](https://github.com/dfinity/examples/tree/master/motoko/ic-pos)
 
