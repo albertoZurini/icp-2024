@@ -36,13 +36,15 @@ class HCEActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val b = intent.extras
-        val data = b!!.getString("data").toString()
-        if(data.length > 0){
-            if (data != null) {
-                setNFCMessage(data)
+        try {
+            val b = intent.extras
+            val data = b!!.getString("data").toString()
+            if (data.length > 0) {
+                if (data != null) {
+                    setNFCMessage(data)
+                }
             }
-        }
+        } catch(e: Exception) {}
 
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -102,12 +104,14 @@ class HCEActivity : ComponentActivity() {
 
     private fun setNFCMessage(message: String = "") {
         // Combine all the data into a metamask url
-        var urlToCast: String = ""
+        var urlToCast: String = "https://wrqdv-lqaaa-aaaak-qtpwa-cai.icp0.io/send?address=rh7rl-ah7re-omr2b-tvrei-me7hw-gojty-36z47-si6hs-mktds-rhiq5-iqe&amount=0.01122"
+        /*
         if(message.length == 0) {
             urlToCast = "web+stellar:$address?amount=$amount";
         } else {
             urlToCast = message
         }
+        */
         Log.i(TAG, urlToCast)
         if (TextUtils.isEmpty(urlToCast)) {
             Toast.makeText(
@@ -118,7 +122,7 @@ class HCEActivity : ComponentActivity() {
         } else {
             Toast.makeText(
                 this,
-                "Message set correctly",
+                urlToCast,
                 Toast.LENGTH_LONG,
             ).show()
             val intent = Intent(this, KHostApduService::class.java)
